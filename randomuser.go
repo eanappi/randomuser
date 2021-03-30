@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-const endpoint = "https://randomuser.me/api/1.3/?nat=es&results=10&noinfo"
+const endpoint = "https://randomuser.me/api/1.3/?noinfo"
 
 // RandomuserScheme is the all randomuser scheme response
 type RandomuserScheme struct {
@@ -69,10 +69,11 @@ type RandomuserScheme struct {
 	} `json:"results"`
 }
 
-func NewRandomUserJson() (*RandomuserScheme, error) {
+// NewRandomUserJson instance the API request
+func NewRandomUserJson(results uint8) (*RandomuserScheme, error) {
 	var r RandomuserScheme
 
-	res, err := http.Get(endpoint)
+	res, err := http.Get(fmt.Sprintf("%s&nat=es&results=%d", endpoint, results))
 	defer res.Body.Close()
 
 	if err != nil {
