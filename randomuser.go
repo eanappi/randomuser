@@ -70,7 +70,7 @@ type RandomuserScheme struct {
 }
 
 // NewRandomUserJson instance the API request
-func NewUsers(results uint8) (*RandomuserScheme, error) {
+func NewUsers(results int) (*RandomuserScheme, error) {
 	var r RandomuserScheme
 
 	res, err := http.Get(fmt.Sprintf("%s&nat=es&results=%d", endpoint, results))
@@ -93,12 +93,46 @@ func NewUsers(results uint8) (*RandomuserScheme, error) {
 }
 
 // FullName is a method return composite of Title, First and Last
-func (r *RandomuserScheme) FullName(id uint8) string {
+func (r *RandomuserScheme) FullName(id int) string {
 	name := &r.Results[id].Name
 
 	return fmt.Sprintf("%s %s %s", name.Title, name.First, name.Last)
 }
 
-func Test() {
-	fmt.Println("Modulo randomuser saludando")
+// Picture return path image according to large, medium, thumbnail
+func (r *RandomuserScheme) Picture(id int, typeSize string) string {
+	picture := &r.Results[id].Picture
+
+	switch typeSize {
+	case "large":
+		return picture.Large
+	case "medium":
+		return picture.Medium
+	case "thumbnail":
+		return picture.Thumbnail
+	default:
+		return picture.Medium
+	}
+}
+
+// Gender return gender by id
+func (r *RandomuserScheme) Gender(id int) string {
+	return r.Results[id].Gender
+}
+
+// Age return age by id
+func (r *RandomuserScheme) Age(id int) int {
+	return r.Results[id].Dob.Age
+}
+
+// Summary return a summary map
+func (r *RandomuserScheme) Summary(id int) map[string]string {
+	summary := make(map[string]string)
+
+	summary["name"] = r.FullName(id)
+	summary["gender"] = string(r.Gender(id))
+	summary["picture"] = r.Picture(id, "medium")
+	summary["age"] = string(r.Age(id))
+
+	return summary
 }
