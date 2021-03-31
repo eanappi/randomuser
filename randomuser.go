@@ -92,6 +92,13 @@ func NewUsers(results uint8) (*RandomuserScheme, error) {
 	return &r, nil
 }
 
+// FullName is a method return composite of Title, First and Last
+func (r *RandomuserScheme) FullName(id uint8) string {
+	name := &r.Results[id].Name
+
+	return fmt.Sprintf("%s %s %s", name.Title, name.First, name.Last)
+}
+
 func Test() {
 	fmt.Println("Modulo randomuser saludando")
 }
