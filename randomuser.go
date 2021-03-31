@@ -70,7 +70,7 @@ type RandomuserScheme struct {
 }
 
 // NewRandomUserJson instance the API request
-func NewRandomUserJson(results uint8) (*RandomuserScheme, error) {
+func NewUsers(results uint8) (*RandomuserScheme, error) {
 	var r RandomuserScheme
 
 	res, err := http.Get(fmt.Sprintf("%s&nat=es&results=%d", endpoint, results))
