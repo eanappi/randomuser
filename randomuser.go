@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -130,9 +131,9 @@ func (r *RandomuserScheme) Summary(id int) map[string]string {
 	summary := make(map[string]string)
 
 	summary["name"] = r.FullName(id)
-	summary["gender"] = string(r.Gender(id))
+	summary["gender"] = r.Gender(id)
 	summary["picture"] = r.Picture(id, "medium")
-	summary["age"] = string(r.Age(id))
+	summary["age"] = strconv.Itoa(r.Age(id))
 
 	return summary
 }
